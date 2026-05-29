@@ -53,7 +53,7 @@ export function initHome() {
     if (statusText) statusText.innerHTML = 'Pinging...'
     if (playerCount) playerCount.innerHTML = ''
 
-    const status = await server.getStatus('mc.hypixel.net', 25565)
+    const status = await server.getStatus('mythos.mcsrv.ge', 5078)
 
     if (status) {
       if (statusDot) {

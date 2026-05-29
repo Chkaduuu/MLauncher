@@ -3,34 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EML Template</title>
+    <title>MLauncher</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
     <style>
       body {
-        background-color: #121212;
+        background-color: #0a0a0a;
         overflow: hidden;
       }
-
       body:not(.loaded) div#app {
         opacity: 0 !important;
         visibility: hidden;
         transition: opacity 0.4s ease-in-out;
       }
-
       body.loaded div#app {
         transition: opacity 0.4s ease-in-out;
         opacity: 1;
         visibility: visible;
       }
-
-      div.view:not(.active) {
-        display: none;
-      }
-
-      div.loading,
-      div.maintenance,
-      div.update {
+      div.view:not(.active) { display: none; }
+      div.loading, div.maintenance, div.update {
         position: fixed;
         top: 0;
         display: flex;
@@ -38,27 +30,13 @@
         align-items: center;
         height: 100vh;
         width: 100vw;
-        background-color: #121212;
+        background-color: #0a0a0a;
         transition: opacity 0.4s ease-in-out;
       }
-
-      div.loading {
-        opacity: 1;
-      }
-
-      div.loading.loaded {
-        opacity: 0;
-      }
-
-      div.maintenance,
-      div.update {
-        opacity: 0;
-      }
-
-      div.maintenance.loaded,
-      div.update.loaded {
-        opacity: 1;
-      }
+      div.loading { opacity: 1; }
+      div.loading.loaded { opacity: 0; }
+      div.maintenance, div.update { opacity: 0; }
+      div.maintenance.loaded, div.update.loaded { opacity: 1; }
     </style>
   </head>
   <body>
@@ -101,14 +79,12 @@
       <div id="view-login" class="view" data-view="login">
         <div class="login-card">
           <img src="/src/static/images/logo.png" class="logo" alt="Logo" />
-          <h1>Welcome</h1>
-          <p class="subtitle">Log in to verify your access.</p>
-
+          <h1>Mythos Core</h1>
+          <p class="subtitle">შედი და გადარჩი — თუ შეძლებ. 🧟</p>
           <button id="btn-login-ms" class="btn btn-microsoft">
             <i class="fa-brands fa-microsoft"></i>
             <span>Sign in with Microsoft</span>
           </button>
-
           <div class="login-footer">
             <small>No account yet? <a href="https://microsoft.com">Create one here</a></small>
           </div>
@@ -125,12 +101,11 @@
                 <span class="rank-badge">Member</span>
               </div>
             </div>
-
             <button id="btn-settings" class="btn btn-secondary" title="Settings"><i class="fa-fw fa-solid fa-gear"></i></button>
           </div>
 
           <div class="sidebar-middle">
-            <h3>Shop</h3>
+            <h3>🛒 Shop</h3>
             <div class="shop-item">
               <img src="src/static/images/gold.png" class="shop-item-image" alt="Gold Rank" />
               <div class="shop-item-details">
@@ -152,15 +127,7 @@
                 <span class="item-price">$3.99</span>
               </div>
             </div>
-            <div class="shop-item">
-              <img src="src/static/images/box.png" class="shop-item-image" alt="Mystery Box" />
-              <div class="shop-item-details">
-                <span class="item-name">Mystery Box</span>
-                <span class="item-price">$5.99</span>
-              </div>
-            </div>
-
-            <a class="btn btn-secondary" href="https://emlproject.qzz.io/shop" target="_blank">
+            <a class="btn btn-secondary" href="https://official-mythos.gt.tc/" target="_blank">
               <i class="fa-fw fa-solid fa-cart-shopping"></i>
               <span>Visit shop</span>
             </a>
@@ -174,10 +141,8 @@
               </div>
               <div class="player-count" id="player-count"></div>
             </div>
-
             <div class="launch-area">
               <button id="btn-play">PLAY</button>
-
               <div class="progress-container hidden" id="launch-progress-container">
                 <div class="progress-info">
                   <span id="launch-progress-label">Downloading...</span>
@@ -195,14 +160,11 @@
           <div class="news-header">
             <h2>News feed</h2>
             <div class="social-links">
-              <a href="https://discord.gg/YVB4k6HzAY" target="_blank" class="btn btn-icon-only"><i class="fa-brands fa-discord"></i></a>
-              <a href="https://twitter.com/EMLProject" target="_blank" class="btn btn-icon-only"><i class="fa-brands fa-x-twitter"></i></a>
-              <a href="https://emlproject.qzz.io" target="_blank" class="btn btn-icon-only"><i class="fa-solid fa-globe"></i></a>
+              <a href="https://discord.com/invite/v6cnzGbbMk" target="_blank" class="btn btn-icon-only"><i class="fa-brands fa-discord"></i></a>
+              <a href="https://mythoscore.gt.tc/" target="_blank" class="btn btn-icon-only"><i class="fa-solid fa-globe"></i></a>
             </div>
           </div>
-
           <hr />
-
           <div class="news-list" id="news-list"></div>
         </main>
       </div>
@@ -212,7 +174,6 @@
           <button id="btn-close-settings" class="btn btn-icon-only btn-close-absolute">
             <i class="fa-fw fa-solid fa-xmark"></i>
           </button>
-
           <aside class="settings-sidebar">
             <h2>Settings</h2>
             <nav>
@@ -221,33 +182,26 @@
             </nav>
             <p id="version"></p>
           </aside>
-
           <main class="settings-content">
             <section id="tab-game" class="tab-content active">
               <h3>Minecraft configuration</h3>
-
               <div class="setting-group">
                 <label><i class="fa-fw fa-solid fa-memory"></i>&nbsp;&nbsp;Allocated RAM</label>
-
                 <div class="dual-slider-container">
                   <div class="slider-track"></div>
                   <div class="slider-fill" id="ram-track-fill"></div>
-
                   <input type="range" id="ram-min" min="0.5" max="16" step="0.5" value="2" />
                   <input type="range" id="ram-max" min="0.5" max="16" step="0.5" value="8" />
                 </div>
-
                 <div class="ram-labels">
                   <span id="ram-min-label">2 GB</span>
                   <span id="ram-max-label">8 GB</span>
                 </div>
               </div>
-
               <div class="setting-group">
                 <label><i class="fa-fw fa-solid fa-display"></i>&nbsp;&nbsp;Window size</label>
                 <select id="resolution-select"></select>
               </div>
-
               <div class="setting-group">
                 <label for="launcher-action"><i class="fa-solid fa-power-off"></i>&nbsp;&nbsp;Action after launch</label>
                 <div class="select-wrapper">
@@ -258,7 +212,6 @@
                   </select>
                 </div>
               </div>
-
               <div class="setting-group">
                 <label><i class="fa-brands fa-java"></i>&nbsp;&nbsp;Java version</label>
                 <div class="java-selector">
@@ -269,20 +222,17 @@
                 </div>
               </div>
             </section>
-
             <section id="tab-account" class="tab-content">
               <h3>Account management</h3>
-
               <div class="account-card">
                 <div class="account-header">
-                  <img src="https://minotar.net/helm/GoldFrite/80" alt="Skin" class="account-avatar" />
+                  <img src="https://minotar.net/helm/Steve/80" alt="Skin" class="account-avatar" />
                   <div class="account-details">
-                    <span class="account-name" id="settings-user-name">GoldFrite</span>
-                    <span class="account-uuid" id="settings-user-uuid">UUID: 550e8400-e29b...</span>
+                    <span class="account-name" id="settings-user-name">Player</span>
+                    <span class="account-uuid" id="settings-user-uuid">UUID: ...</span>
                     <span class="account-type" id="settings-user-type"><i class="fa-brands fa-microsoft"></i>&nbsp;&nbsp;Microsoft Account</span>
                   </div>
                 </div>
-
                 <div class="account-actions">
                   <a href="https://www.xbox.com/play/user" target="_blank" class="btn btn-secondary">
                     <i class="fa-fw fa-solid fa-external-link-alt"></i><span>Manage Xbox Account</span>
@@ -308,4 +258,3 @@
     <img src="/src/static/images/bg.png" alt="default background preload" style="display: none" />
   </body>
 </html>
-
