@@ -16,12 +16,16 @@
   .logo {
     width: 80px;
     margin-bottom: 20px;
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+    filter: drop-shadow(0 0 15px rgba(200, 0, 0, 0.5));
   }
 
   h1 {
     font-size: 24px;
     margin-bottom: 5px;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .subtitle {
@@ -30,8 +34,6 @@
     margin-bottom: 30px;
   }
 
-  /* .btn-microsoft is now defined in main.scss/Global Buttons */
-
   .login-footer {
     margin-top: 20px;
     font-size: 12px;
@@ -39,6 +41,7 @@
 
     a {
       font-weight: 600;
+      color: var(--primary);
     }
   }
 }

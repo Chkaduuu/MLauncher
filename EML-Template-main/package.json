@@ -1,8 +1,8 @@
 {
-  "name": "eml-template",
-  "productName": "EML Template",
-  "author": "GoldFrite",
-  "description": "Template launcher with EML Lib",
+  "name": "mlauncher",
+  "productName": "MLauncher",
+  "author": "Chkaduuu",
+  "description": "Mythos Core Official Launcher",
   "private": true,
   "version": "1.0.5",
   "license": "MIT",
@@ -15,9 +15,9 @@
     "release:lin": "npm run build && electron-builder --linux"
   },
   "build": {
-    "appId": "com.eml.template",
-    "productName": "EML Template",
-    "copyright": "Copyright © 2026 EML",
+    "appId": "com.mythoscore.mlauncher",
+    "productName": "MLauncher",
+    "copyright": "Copyright © 2026 Mythos Core",
     "directories": {
       "output": "release",
       "buildResources": "build"
@@ -40,12 +40,12 @@
     ],
     "publish": {
       "provider": "generic",
-      "url": "https://emlproject.qzz.io/"
+      "url": "https://eml-admintool-production.up.railway.app/"
     },
     "win": {
       "target": "nsis",
       "icon": "build/icon.ico",
-      "legalTrademarks": "EML Project"
+      "legalTrademarks": "Mythos Core"
     },
     "nsis": {
       "oneClick": false,
@@ -53,16 +53,13 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "EML Template",
+      "shortcutName": "MLauncher",
       "deleteAppDataOnUninstall": true,
       "artifactName": "${productName}-Setup-${version}.${ext}",
-      "uninstallDisplayName": "EML Template"
+      "uninstallDisplayName": "MLauncher"
     },
     "mac": {
-      "target": [
-        "dmg",
-        "zip"
-      ],
+      "target": ["dmg", "zip"],
       "category": "public.app-category.games",
       "icon": "build/icon.icns",
       "darkModeSupport": true,
@@ -78,31 +75,16 @@
       "icon": "build/dmg-icon.icns",
       "iconSize": 100,
       "contents": [
-        {
-          "x": 130,
-          "y": 190
-        },
-        {
-          "x": 410,
-          "y": 190,
-          "type": "link",
-          "path": "/Applications"
-        }
+        {"x": 130, "y": 190},
+        {"x": 410, "y": 190, "type": "link", "path": "/Applications"}
       ],
-      "window": {
-        "width": 540,
-        "height": 430
-      }
+      "window": {"width": 540, "height": 430}
     },
     "linux": {
-      "target": [
-        "AppImage",
-        "deb",
-        "rpm"
-      ],
+      "target": ["AppImage", "deb", "rpm"],
       "icon": "build/icon.png",
       "category": "Game",
-      "description": "Template launcher with EML Lib",
+      "description": "Mythos Core Official Launcher",
       "artifactName": "${productName}-${version}.${ext}"
     }
   },

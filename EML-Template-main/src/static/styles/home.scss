@@ -171,7 +171,7 @@
 #btn-play {
   width: 100%;
   height: 60px;
-  background: var(--primary);
+  background: var(--gradient);
   border: none;
   color: white;
   font-family: 'Poppins', sans-serif;
@@ -187,7 +187,7 @@
   box-shadow: var(--shadow-lg);
 
   &:hover {
-    background: var(--primary-hover);
+    background: var(--gradient-hover);
     transform: scale(1.02);
   }
 
@@ -222,7 +222,7 @@
   .progress-bar-fill {
     height: 100%;
     width: 0%;
-    background: var(--primary);
+    background: var(--gradient);
     // transition: width 0.1s ease-out;
 
     &.indeterminate {
