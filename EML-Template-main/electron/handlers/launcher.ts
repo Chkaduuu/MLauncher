@@ -28,9 +28,7 @@ export function registerLauncherHandlers(mainWindow: BrowserWindow) {
         height: settings.resolution.height,
         fullscreen: settings.resolution.fullscreen
       },
-      minecraft: {
-        args: ['--quickPlayMultiplayer', 'dns.burnednodes.ge:5078']
-      }
+
     })
 
     launcher.on('launch_compute_download', () => {
