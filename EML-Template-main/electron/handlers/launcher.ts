@@ -20,8 +20,8 @@ export function registerLauncherHandlers(mainWindow: BrowserWindow) {
       },
       java: java,
       memory: {
-        min: +settings.memory.min.replace('G', '') * 1024,
-        max: +settings.memory.max.replace('G', '') * 1024
+        min: Math.max(+settings.memory.min.toString().replace('G', '') * 1024, 512),
+        max: Math.max(+settings.memory.max.toString().replace('G', '') * 1024, 1024)
       },
       window: {
         width: settings.resolution.width,
