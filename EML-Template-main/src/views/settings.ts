@@ -65,60 +65,22 @@ function initUIListeners() {
 }
 
 function initDualSlider(maxRamSystem: number) {
-  maxRamSystem = Math.min(maxRamSystem, 16)
-  const minInput = document.getElementById('ram-min') as HTMLInputElement
-  const maxInput = document.getElementById('ram-max') as HTMLInputElement
-  const fill = document.getElementById('ram-track-fill')
-  const minLabel = document.getElementById('ram-min-label')
-  const maxLabel = document.getElementById('ram-max-label')
-
-  if (!minInput || !maxInput || !fill) return
-
-  minInput.max = maxRamSystem.toString()
-  maxInput.max = maxRamSystem.toString()
-
-  const gap = 0.5
-  const updateSlider = (e?: Event) => {
-    let minVal = parseFloat(minInput.value)
-    let maxVal = parseFloat(maxInput.value)
-
-    if (maxVal - minVal < gap) {
-      if (e?.target === minInput) {
-        minInput.value = (maxVal - gap).toString()
-        minVal = parseFloat(minInput.value)
-      } else {
-        maxInput.value = (minVal + gap).toString()
-        maxVal = parseFloat(maxInput.value)
-      }
-    }
-
-    if (minLabel) minLabel.innerText = `${minVal} GB`
-    if (maxLabel) maxLabel.innerText = `${maxVal} GB`
-
-    const range = maxRamSystem - parseFloat(minInput.min)
-    const minPercent = ((minVal - parseFloat(minInput.min)) / range) * 100
-    const maxPercent = ((maxVal - parseFloat(maxInput.min)) / range) * 100
-
-    fill.style.left = `${minPercent}%`
-    fill.style.width = `${maxPercent - minPercent}%`
-  }
-
-  minInput.addEventListener('input', updateSlider)
-  maxInput.addEventListener('input', updateSlider)
-  updateSlider()
+  maxRamSystem = Math.min(maxRamSystem, 32)
+  const ramInput = document.getElementById('ram-amount') as HTMLInputElement
+  if (!ramInput) return
+  ramInput.max = maxRamSystem.toString()
 }
 
 function initFormValues(resolution: { width: number; height: number }) {
   if (!currentSettings) return
 
-  const minInput = document.getElementById('ram-min') as HTMLInputElement
-  const maxInput = document.getElementById('ram-max') as HTMLInputElement
+  const ramInput = document.getElementById('ram-amount') as HTMLInputElement
   const resolutionSelect = document.getElementById('resolution-select') as HTMLSelectElement
   const launcherActionSelect = document.getElementById('launcher-action-select') as HTMLSelectElement
   const javaSelect = document.getElementById('java-select') as HTMLSelectElement
 
-  if (minInput) minInput.value = currentSettings.memory.min.replace('G', '')
-  if (maxInput) maxInput.value = currentSettings.memory.max.replace('G', '')
+  const ramInput = document.getElementById('ram-amount') as HTMLInputElement
+  if (ramInput) ramInput.value = currentSettings.memory.max.replace('G', '')
   if (resolutionSelect) {
     const availableResolutions = getAvailableResolutions(resolution)
     resolutionSelect.innerHTML = ''
@@ -140,8 +102,7 @@ function initFormValues(resolution: { width: number; height: number }) {
 }
 
 async function saveSettings() {
-  const minInput = document.getElementById('ram-min') as HTMLInputElement
-  const maxInput = document.getElementById('ram-max') as HTMLInputElement
+  const ramInput = document.getElementById('ram-amount') as HTMLInputElement
   const launcherActionSelect = document.getElementById('launcher-action-select') as HTMLSelectElement
   const resolutionSelect = document.getElementById('resolution-select') as HTMLSelectElement
   const javaSelect = document.getElementById('java-select') as HTMLSelectElement
@@ -149,8 +110,8 @@ async function saveSettings() {
   const newSettings: IGameSettings = {
     ...currentSettings,
     memory: {
-      min: `${minInput.value}G`,
-      max: `${maxInput.value}G`
+      min: `${ramInput.value}G`,
+      max: `${ramInput.value}G`
     },
     resolution: {
       height: resolutionList.find((r) => r.value === resolutionSelect.value)?.height ?? 854,
