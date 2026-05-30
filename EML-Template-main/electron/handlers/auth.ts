@@ -43,7 +43,7 @@ export function registerAuthHandlers(mainWindow: Electron.BrowserWindow) {
       const data = fs.readFileSync(sessionPath, 'utf-8')
       const savedSession = JSON.parse(data) as Account
       if (savedSession && savedSession.uuid) {
-        if (savedSession.type === 'crack') {
+        if ((savedSession as any).type === 'crack') {
           return { success: true, account: savedSession } as IAuthResponse
         }
         const valid = await auth.validate(savedSession)

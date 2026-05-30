@@ -24,6 +24,7 @@ declare global {
         login: () => Promise<IAuthResponse>
         refresh: () => Promise<IAuthResponse>
         logout: () => Promise<{ success: boolean }>
+        loginCrack: (username: string) => Promise<IAuthResponse>
       }
       server: {
         getStatus: (ip: string, port?: number) => Promise<IServerStatus | null>
@@ -169,4 +170,3 @@ export const settings = {
 export const system = {
   getInfo: () => window.api.system.getInfo()
 }
-

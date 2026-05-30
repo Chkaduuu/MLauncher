@@ -11,7 +11,7 @@ import { registerMaintenanceHandlers } from './handlers/maintenance'
 import { registerBootstrapHandlers } from './handlers/bootstraps'
 import logger from 'electron-log/main'
 
-const APP_TITLE = 'EML Template'
+const APP_TITLE = 'MLauncher'
 const BG_COLOR = '#121212'
 
 const __filename = fileURLToPath(import.meta.url)
