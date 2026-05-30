@@ -4,6 +4,43 @@ import type { Account } from 'eml-lib'
 import type { IGameSettings } from './settings'
 import logger from 'electron-log/main'
 import { ADMINTOOL_URL } from '../const'
+import * as fs from 'node:fs'
+import * as path from 'node:path'
+
+function safeSend(mainWindow: BrowserWindow, channel: string, ...args: any[]) {
+  if (!mainWindow.isDestroyed()) {
+    mainWindow.webContents.send(channel, ...args)
+  }
+}
+
+function writeServersDat(gameDir: string) {
+  try {
+    if (!fs.existsSync(gameDir)) fs.mkdirSync(gameDir, { recursive: true })
+    const ip = 'mythos.mcsrv.ge:5078'
+    const name = 'Mythos Core'
+    const ipBuf = Buffer.from(ip)
+    const nameBuf = Buffer.from(name)
+    const buf = Buffer.concat([
+      Buffer.from([0x0a, 0x00, 0x00]),
+      Buffer.from([0x09, 0x00, 0x07]),
+      Buffer.from('servers'),
+      Buffer.from([0x0a, 0x00, 0x00, 0x00, 0x01]),
+      Buffer.from([0x08, 0x00, 0x04]),
+      Buffer.from('name'),
+      Buffer.from([nameBuf.length >> 8, nameBuf.length & 0xff]),
+      nameBuf,
+      Buffer.from([0x08, 0x00, 0x02]),
+      Buffer.from('ip'),
+      Buffer.from([ipBuf.length >> 8, ipBuf.length & 0xff]),
+      ipBuf,
+      Buffer.from([0x00, 0x00])
+    ])
+    fs.writeFileSync(path.join(gameDir, 'servers.dat'), buf)
+    logger.log('servers.dat written successfully')
+  } catch (err) {
+    logger.error('Failed to write servers.dat:', err)
+  }
+}
 
 export function registerLauncherHandlers(mainWindow: BrowserWindow) {
   ipcMain.handle('game:launch', (_event, payload: { account: Account; settings: IGameSettings }) => {
@@ -11,13 +48,14 @@ export function registerLauncherHandlers(mainWindow: BrowserWindow) {
     const java = settings.java === 'system' ? { install: 'manual' as const, absolutePath: 'java' } : { install: 'auto' as const }
     logger.log('Launching')
 
+    const gameDir = path.join(app.getPath('appData'), '.mythos_core')
+    writeServersDat(gameDir)
+
     const launcher = new Launcher({
       url: ADMINTOOL_URL,
       serverId: 'mythos-core',
       account: account,
-      cleaning: {
-        clean: false
-      },
+      cleaning: { clean: false },
       java: java,
       memory: {
         min: 512,
@@ -27,123 +65,113 @@ export function registerLauncherHandlers(mainWindow: BrowserWindow) {
         width: settings.resolution.width,
         height: settings.resolution.height,
         fullscreen: settings.resolution.fullscreen
-      },
-
+      }
     })
 
     launcher.on('launch_compute_download', () => {
       logger.log('Computing download...')
-      mainWindow.webContents.send('game:launch_compute_download')
+      safeSend(mainWindow, 'game:launch_compute_download')
     })
-
     launcher.on('launch_download', (download) => {
       logger.log(`Downloading ${download.total.amount} files (${download.total.size} B).`)
-      mainWindow.webContents.send('game:launch_download', download)
+      safeSend(mainWindow, 'game:launch_download', download)
     })
     launcher.on('download_progress', (progress) => {
-      mainWindow.webContents.send('game:download_progress', progress)
+      safeSend(mainWindow, 'game:download_progress', progress)
     })
     launcher.on('download_error', (error) => {
       logger.error(`Error downloading ${error.filename}: ${error.message}`)
-      mainWindow.webContents.send('game:download_error', error)
+      safeSend(mainWindow, 'game:download_error', error)
     })
     launcher.on('download_end', (info) => {
       logger.log(`Downloaded ${info.downloaded.amount} files.`)
-      mainWindow.webContents.send('game:download_end', info)
+      safeSend(mainWindow, 'game:download_end', info)
     })
-
     launcher.on('launch_install_loader', (loader) => {
       logger.log(`Installing loader ${loader.type} ${loader.loaderVersion}...`)
-      mainWindow.webContents.send('game:launch_install_loader', loader)
+      safeSend(mainWindow, 'game:launch_install_loader', loader)
     })
-
     launcher.on('launch_extract_natives', () => {
       logger.log('Extracting natives...')
-      mainWindow.webContents.send('game:launch_extract_natives')
+      safeSend(mainWindow, 'game:launch_extract_natives')
     })
     launcher.on('extract_progress', (progress) => {
       logger.log(`Extracted ${progress.filename}.`)
-      mainWindow.webContents.send('game:extract_progress', progress)
+      safeSend(mainWindow, 'game:extract_progress', progress)
     })
     launcher.on('extract_end', (info) => {
       logger.log(`Extracted ${info.amount} files.`)
-      mainWindow.webContents.send('game:extract_end', info)
+      safeSend(mainWindow, 'game:extract_end', info)
     })
-
     launcher.on('launch_copy_assets', () => {
       logger.log('Copying assets...')
-      mainWindow.webContents.send('game:launch_copy_assets')
+      safeSend(mainWindow, 'game:launch_copy_assets')
     })
     launcher.on('copy_progress', (progress) => {
       logger.log(`Copied ${progress.filename} to ${progress.dest}.`)
-      mainWindow.webContents.send('game:copy_progress', progress)
+      safeSend(mainWindow, 'game:copy_progress', progress)
     })
     launcher.on('copy_end', (info) => {
       logger.log(`Copied ${info.amount} files.`)
-      mainWindow.webContents.send('game:copy_end', info)
+      safeSend(mainWindow, 'game:copy_end', info)
     })
-
     launcher.on('launch_patch_loader', () => {
       logger.log('Patching loader...')
-      mainWindow.webContents.send('game:launch_patch_loader')
+      safeSend(mainWindow, 'game:launch_patch_loader')
     })
     launcher.on('patch_progress', (progress) => {
-      mainWindow.webContents.send('game:patch_progress', progress)
+      safeSend(mainWindow, 'game:patch_progress', progress)
     })
     launcher.on('patch_error', (error) => {
       logger.error(`Error patching ${error.filename}: ${error.message}`)
-      mainWindow.webContents.send('game:patch_error', error)
+      safeSend(mainWindow, 'game:patch_error', error)
     })
     launcher.on('patch_end', (info) => {
       logger.log(`Patched ${info.amount} files.`)
-      mainWindow.webContents.send('game:patch_end', info)
+      safeSend(mainWindow, 'game:patch_end', info)
     })
-
     launcher.on('launch_check_java', () => {
       logger.log('Checking Java...')
-      mainWindow.webContents.send('game:launch_check_java')
+      safeSend(mainWindow, 'game:launch_check_java')
     })
     launcher.on('java_info', (info) => {
       logger.log(`Using Java ${info.version} ${info.arch}`)
-      mainWindow.webContents.send('game:java_info', info)
+      safeSend(mainWindow, 'game:java_info', info)
     })
-
     launcher.on('launch_clean', () => {
       logger.log('Cleaning game directory...')
-      mainWindow.webContents.send('game:launch_clean')
+      safeSend(mainWindow, 'game:launch_clean')
     })
     launcher.on('clean_progress', (progress) => {
-      mainWindow.webContents.send('game:clean_progress', progress)
+      safeSend(mainWindow, 'game:clean_progress', progress)
     })
     launcher.on('clean_end', (info) => {
       logger.log(`Cleaned ${info.amount} files.`)
-      mainWindow.webContents.send('game:clean_end', info)
+      safeSend(mainWindow, 'game:clean_end', info)
     })
-
     launcher.on('launch_launch', (info) => {
       logger.log(`Launching Minecraft ${info.version} (${info.type}${info.loaderVersion ? ` ${info.loaderVersion}` : ''})...`)
-      mainWindow.webContents.send('game:launch_launch', info)
+      safeSend(mainWindow, 'game:launch_launch', info)
+      safeSend(mainWindow, 'game:launched')
       if (settings.launcherAction === 'close') {
-        setTimeout(() => app.quit(), 5000)
+        setTimeout(() => { if (!mainWindow.isDestroyed()) app.quit() }, 5000)
       } else if (settings.launcherAction === 'hide') {
-        setTimeout(() => mainWindow.minimize(), 5000)
+        setTimeout(() => { if (!mainWindow.isDestroyed()) mainWindow.minimize() }, 5000)
       }
-      mainWindow.webContents.send('game:launched')
     })
     launcher.on('launch_data', (message) => {
       logger.log(message)
-      mainWindow.webContents.send('game:launch_data', message)
+      safeSend(mainWindow, 'game:launch_data', message)
     })
     launcher.on('launch_close', (code) => {
       logger.log(`Closed with code ${code}.`)
-      mainWindow.webContents.send('game:launch_close', code)
+      safeSend(mainWindow, 'game:launch_close', code)
     })
-
     launcher.on('launch_debug', (message) => {
-      mainWindow.webContents.send('game:launch_debug', message)
+      safeSend(mainWindow, 'game:launch_debug', message)
     })
     launcher.on('patch_debug', (message) => {
-      mainWindow.webContents.send('game:patch_debug', message)
+      safeSend(mainWindow, 'game:patch_debug', message)
     })
 
     try {
