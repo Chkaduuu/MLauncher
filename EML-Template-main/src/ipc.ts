@@ -98,6 +98,7 @@ declare global {
 
 export const auth = {
   login: async () => await window.api.auth.login(),
+  loginCrack: async (username: string) => await window.api.auth.loginCrack(username),
   logout: async () => await window.api.auth.logout(),
   refresh: async () => await window.api.auth.refresh()
 }

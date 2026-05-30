@@ -37,6 +37,57 @@
       div.loading.loaded { opacity: 0; }
       div.maintenance, div.update { opacity: 0; }
       div.maintenance.loaded, div.update.loaded { opacity: 1; }
+      .crack-divider {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 15px 0;
+        color: rgba(255,255,255,0.3);
+        font-size: 12px;
+      }
+      .crack-divider::before,
+      .crack-divider::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: rgba(255,255,255,0.1);
+      }
+      #crack-username {
+        width: 100%;
+        padding: 10px 14px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        border: 1px solid rgba(200,0,0,0.3);
+        background: rgba(20,0,0,0.5);
+        color: white;
+        font-family: Poppins, sans-serif;
+        font-size: 14px;
+        box-sizing: border-box;
+        outline: none;
+        transition: border 0.2s;
+      }
+      #crack-username:focus {
+        border-color: rgba(200,0,0,0.7);
+      }
+      #btn-login-crack {
+        width: 100%;
+        background: rgba(100,0,0,0.4);
+        border: 1px solid rgba(200,0,0,0.4);
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: Poppins, sans-serif;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: background 0.2s;
+      }
+      #btn-login-crack:hover {
+        background: rgba(150,0,0,0.6);
+      }
     </style>
   </head>
   <body>
@@ -81,10 +132,20 @@
           <img src="/src/static/images/logo.png" class="logo" alt="Logo" />
           <h1>Mythos Core</h1>
           <p class="subtitle">შედი და გადარჩი — თუ შეძლებ. 🧟</p>
+
           <button id="btn-login-ms" class="btn btn-microsoft">
             <i class="fa-brands fa-microsoft"></i>
             <span>Sign in with Microsoft</span>
           </button>
+
+          <div class="crack-divider">or play offline</div>
+
+          <input id="crack-username" type="text" placeholder="Enter your nickname" maxlength="16" />
+          <button id="btn-login-crack">
+            <i class="fa-solid fa-user-slash"></i>
+            <span>Play Offline</span>
+          </button>
+
           <div class="login-footer">
             <small>No account yet? <a href="https://microsoft.com">Create one here</a></small>
           </div>
@@ -127,7 +188,7 @@
                 <span class="item-price">$3.99</span>
               </div>
             </div>
-            <a class="btn btn-secondary" href="https://official-mythos.gt.tc/" target="_blank">
+            <a class="btn btn-secondary" href="https://mythoscore.gt.tc/store" target="_blank">
               <i class="fa-fw fa-solid fa-cart-shopping"></i>
               <span>Visit shop</span>
             </a>

@@ -20,6 +20,7 @@ import type {
 contextBridge.exposeInMainWorld('api', {
   auth: {
     login: (): Promise<IAuthResponse> => ipcRenderer.invoke('auth:login'),
+    loginCrack: (username: string): Promise<IAuthResponse> => ipcRenderer.invoke('auth:login:crack', username),
     refresh: (): Promise<IAuthResponse> => ipcRenderer.invoke('auth:refresh'),
     logout: (): Promise<{ success: boolean }> => ipcRenderer.invoke('auth:logout')
   },
