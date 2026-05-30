@@ -88,6 +88,22 @@
       #btn-login-crack:hover {
         background: rgba(150,0,0,0.6);
       }
+      #skin-viewer-container {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        cursor: grab;
+        user-select: none;
+        min-height: 0;
+      }
+      #skin-viewer-container:active { cursor: grabbing; }
+      #skin-canvas {
+        display: block;
+        width: 100% !important;
+        height: 100% !important;
+      }
     </style>
   </head>
   <body>
@@ -132,20 +148,16 @@
           <img src="/src/static/images/logo.png" class="logo" alt="Logo" />
           <h1>Mythos Core</h1>
           <p class="subtitle">შედი და გადარჩი — თუ შეძლებ. 🧟</p>
-
           <button id="btn-login-ms" class="btn btn-microsoft">
             <i class="fa-brands fa-microsoft"></i>
             <span>Sign in with Microsoft</span>
           </button>
-
           <div class="crack-divider">or play offline</div>
-
           <input id="crack-username" type="text" placeholder="Enter your nickname" maxlength="16" />
           <button id="btn-login-crack">
             <i class="fa-solid fa-user-slash"></i>
             <span>Play Offline</span>
           </button>
-
           <div class="login-footer">
             <small>No account yet? <a href="https://microsoft.com">Create one here</a></small>
           </div>
@@ -165,21 +177,8 @@
             <button id="btn-settings" class="btn btn-secondary" title="Settings"><i class="fa-fw fa-solid fa-gear"></i></button>
           </div>
 
-          <div class="sidebar-middle">
-            <div class="social-links" style="display: flex; flex-direction: column; gap: 8px; margin-top: 8px;">
-              <a href="https://discord.com/invite/v6cnzGbbMk" target="_blank" class="btn btn-secondary">
-                <i class="fa-fw fa-brands fa-discord"></i>
-                <span>Discord</span>
-              </a>
-              <a href="https://mythoscore.gt.tc/store" target="_blank" class="btn btn-secondary">
-                <i class="fa-fw fa-solid fa-cart-shopping"></i>
-                <span>Visit Shop</span>
-              </a>
-              <a href="https://mythoscore.gt.tc/" target="_blank" class="btn btn-secondary">
-                <i class="fa-fw fa-solid fa-globe"></i>
-                <span>Website</span>
-              </a>
-            </div>
+          <div id="skin-viewer-container">
+            <canvas id="skin-canvas"></canvas>
           </div>
 
           <div class="sidebar-bottom">
@@ -209,8 +208,9 @@
           <div class="news-header">
             <h2>News feed</h2>
             <div class="social-links">
-              <a href="https://discord.com/invite/v6cnzGbbMk" target="_blank" class="btn btn-icon-only"><i class="fa-brands fa-discord"></i></a>
-              <a href="https://mythoscore.gt.tc/" target="_blank" class="btn btn-icon-only"><i class="fa-solid fa-globe"></i></a>
+              <a href="https://discord.com/invite/v6cnzGbbMk" target="_blank" class="btn btn-icon-only" title="Discord"><i class="fa-brands fa-discord"></i></a>
+              <a href="https://mythoscore.gt.tc/store" target="_blank" class="btn btn-icon-only" title="Visit Shop"><i class="fa-solid fa-cart-shopping"></i></a>
+              <a href="https://mythoscore.gt.tc/" target="_blank" class="btn btn-icon-only" title="Website"><i class="fa-solid fa-globe"></i></a>
             </div>
           </div>
           <hr />

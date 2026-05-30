@@ -1,5 +1,6 @@
 import { setView, getUser } from '../state'
 import { game, news, server, settings } from '../ipc'
+import { initSkinViewer } from './skinViewer'
 import { marked } from 'marked'
 import DOMPurify from 'dompurify'
 import logger from 'electron-log/renderer'
@@ -42,6 +43,12 @@ export function initHome() {
   const playerCount = document.getElementById('player-count')
   const newsList = document.getElementById('news-list')
 
+  // Init 3D skin viewer
+  const user = getUser()
+  if (user) {
+    initSkinViewer(user.name)
+  }
+
   let totalToDownload = 0
   let totalDownloadedByType: { type: string; size: number }[] = []
 
@@ -61,7 +68,6 @@ export function initHome() {
         statusDot.classList.add('online')
       }
       if (statusText) statusText.innerHTML = 'Online'
-
       if (playerCount) {
         playerCount.innerHTML = `<i class="fa-fw fa-solid fa-users"></i>&nbsp;&nbsp;${status.players.online.toLocaleString()} / ${status.players.max.toLocaleString()}`
       }
@@ -106,7 +112,7 @@ export function initHome() {
           </div>
 
           <h3>${item.title}</h3>
-          
+
           ${item.image ? `<img src="${item.image}" alt="News Image" onerror="this.style.display='none'"/>` : ''}
 
           <div class="article-content">
@@ -114,7 +120,6 @@ export function initHome() {
           </div>
         </article>
       `
-
       newsList.insertAdjacentHTML('beforeend', articleHTML)
     })
   }
@@ -124,7 +129,6 @@ export function initHome() {
 
   const setIndeterminate = (active: boolean) => {
     if (!progressBar || !progressPercent) return
-
     if (active) {
       progressBar.classList.add('indeterminate')
       progressPercent.style.display = 'none'
@@ -152,14 +156,13 @@ export function initHome() {
 
     const message = `
 Ready to launch the game with the following settings:
-      
+
 👤 Account: ${user.name}
 🧠 RAM: ${config.memory.min} - ${config.memory.max}
 ☕️ Java: ${config.java}
 🖥️ Resolution: ${config.resolution.width}x${config.resolution.height}
 🚀 Action on launch: ${config.launcherAction}
     `
-
     logger.log(message)
     game.launch({ account: user, settings: config })
   })
@@ -172,7 +175,7 @@ Ready to launch the game with the following settings:
   game.launchDownload((download) => {
     setIndeterminate(false)
     totalToDownload = download.total.size
-    if (progressLabel) progressLabel.innerText = `Downloading files...`
+    if (progressLabel) progressLabel.innerText = 'Downloading files...'
   })
   game.downloadProgress((progress) => {
     if (!totalDownloadedByType.find((t) => t.type === progress.type)) {

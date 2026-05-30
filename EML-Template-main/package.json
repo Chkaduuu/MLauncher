@@ -4,7 +4,7 @@
   "author": "Chkaduuu",
   "description": "Mythos Core Official Launcher",
   "private": true,
-  "version": "1.0.6",
+  "version": "1.0.7",
   "license": "MIT",
   "main": "dist-electron/main.js",
   "scripts": {
@@ -59,7 +59,10 @@
       "uninstallDisplayName": "MLauncher"
     },
     "mac": {
-      "target": ["dmg", "zip"],
+      "target": [
+        "dmg",
+        "zip"
+      ],
       "category": "public.app-category.games",
       "icon": "build/icon.icns",
       "darkModeSupport": true,
@@ -75,13 +78,28 @@
       "icon": "build/dmg-icon.icns",
       "iconSize": 100,
       "contents": [
-        {"x": 130, "y": 190},
-        {"x": 410, "y": 190, "type": "link", "path": "/Applications"}
+        {
+          "x": 130,
+          "y": 190
+        },
+        {
+          "x": 410,
+          "y": 190,
+          "type": "link",
+          "path": "/Applications"
+        }
       ],
-      "window": {"width": 540, "height": 430}
+      "window": {
+        "width": 540,
+        "height": 430
+      }
     },
     "linux": {
-      "target": ["AppImage", "deb", "rpm"],
+      "target": [
+        "AppImage",
+        "deb",
+        "rpm"
+      ],
       "icon": "build/icon.png",
       "category": "Game",
       "description": "Mythos Core Official Launcher",
@@ -103,6 +121,7 @@
     "electron-log": "^5.4.3",
     "electron-updater": "^6.8.3",
     "eml-lib": "^2.0.0",
-    "marked": "^17.0.3"
+    "marked": "^17.0.3",
+    "skinview3d": "^3.4.2"
   }
 }
