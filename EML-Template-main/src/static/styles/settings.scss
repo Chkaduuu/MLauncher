@@ -48,7 +48,6 @@
     flex: 1;
   }
 
-  /* Nav Buttons (Custom variant of .btn) */
   .nav-btn {
     background: transparent;
     border: none;
@@ -73,7 +72,6 @@
   top: 15px;
   right: 15px;
   z-index: 10;
-  /* Visual style handled by .btn-icon-only in main.scss */
 }
 
 /* --- CONTENT AREA --- */
@@ -129,7 +127,8 @@
   }
 
   select,
-  input[type="text"] {
+  input[type="text"],
+  input[type="number"] {
     width: 100%;
     background: #111;
     border: 1px solid #444;
@@ -139,6 +138,7 @@
     outline: none;
     font-family: 'Poppins', sans-serif;
     transition: border-color 0.2s;
+    box-sizing: border-box;
 
     &:focus {
       border-color: var(--primary);
@@ -146,64 +146,33 @@
   }
 }
 
-/* Dual Slider Styles */
-.dual-slider-container {
-  position: relative;
-  width: 100%;
-  height: 20px;
-  margin: 10px 0 20px 0;
-}
+/* RAM input row */
+.ram-input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 
-.slider-track {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 100%;
-  height: 4px;
-  background: #444;
-  border-radius: 2px;
-}
+  input[type="number"] {
+    flex: 1;
+    -moz-appearance: textfield;
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
 
-.slider-fill {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  height: 4px;
-  background: var(--primary);
-  z-index: 1;
-}
-
-input[type="range"] {
-  position: absolute;
-  top: calc(50% + 3px);
-  transform: translateY(-50%);
-  width: 100%;
-  appearance: none;
-  background: none;
-  pointer-events: none;
-  z-index: 2;
-  margin: 0;
-
-  &::-webkit-slider-thumb {
-    pointer-events: all;
-    appearance: none;
-    width: 16px;
-    height: 16px;
-    background: white;
-    border: 2px solid var(--primary);
-    border-radius: 50%;
-    cursor: pointer;
-    margin-top: -6px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  .ram-unit {
+    font-size: 14px;
+    color: #aaa;
+    white-space: nowrap;
   }
 }
 
-.ram-labels {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  color: #aaa;
-  margin-top: -5px;
+.ram-hint {
+  font-size: 11px;
+  color: #666;
+  margin-top: 6px;
 }
 
 /* Java Custom Path */
