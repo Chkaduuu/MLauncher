@@ -1,6 +1,5 @@
 import { setView, getUser } from '../state'
 import { game, news, server, settings } from '../ipc'
-import { initSkinViewer } from './skinViewer'
 import { marked } from 'marked'
 import DOMPurify from 'dompurify'
 import logger from 'electron-log/renderer'
@@ -43,10 +42,13 @@ export function initHome() {
   const playerCount = document.getElementById('player-count')
   const newsList = document.getElementById('news-list')
 
-  // Init 3D skin viewer
+  // Update avatar with minotar
   const user = getUser()
+  const userAvatar = document.getElementById('user-avatar') as HTMLImageElement
+  const userName = document.getElementById('user-name')
   if (user) {
-    initSkinViewer(user.name)
+    if (userAvatar) userAvatar.src = `https://minotar.net/armor/bust/${user.name}/100`
+    if (userName) userName.innerText = user.name
   }
 
   let totalToDownload = 0
