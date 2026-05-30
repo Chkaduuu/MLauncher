@@ -13,7 +13,7 @@ export function registerLauncherHandlers(mainWindow: BrowserWindow) {
 
     const launcher = new Launcher({
       url: ADMINTOOL_URL,
-      serverId: 'mythos',
+      serverId: 'mythos-core',
       account: account,
       cleaning: {
         clean: false
