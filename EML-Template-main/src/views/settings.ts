@@ -23,7 +23,7 @@ export async function initSettings() {
   currentSettings = await settings.get()
 
   initUIListeners()
-  initDualSlider(sysInfo.totalMem)
+  initRamInput(sysInfo.totalMem)
   initFormValues(sysInfo.resolution)
 
   const versionElem = document.getElementById('version')
@@ -42,12 +42,10 @@ function initUIListeners() {
   })
 
   logoutBtn?.addEventListener('click', async () => {
-    if (
-      await Dialog.show('Log out?', [
-        { text: 'Cancel', type: 'cancel' },
-        { text: 'Logout', type: 'danger' }
-      ])
-    ) {
+    if (await Dialog.show('Log out?', [
+      { text: 'Cancel', type: 'cancel' },
+      { text: 'Logout', type: 'danger' }
+    ])) {
       await auth.logout()
       closeOverlay('settings')
       setView('login')
@@ -64,11 +62,10 @@ function initUIListeners() {
   })
 }
 
-function initDualSlider(maxRamSystem: number) {
-  maxRamSystem = Math.min(maxRamSystem, 32)
+function initRamInput(maxRamSystem: number) {
   const ramInput = document.getElementById('ram-amount') as HTMLInputElement
   if (!ramInput) return
-  ramInput.max = maxRamSystem.toString()
+  ramInput.max = Math.min(maxRamSystem, 32).toString()
 }
 
 function initFormValues(resolution: { width: number; height: number }) {
@@ -79,8 +76,8 @@ function initFormValues(resolution: { width: number; height: number }) {
   const launcherActionSelect = document.getElementById('launcher-action-select') as HTMLSelectElement
   const javaSelect = document.getElementById('java-select') as HTMLSelectElement
 
-  const ramInput = document.getElementById('ram-amount') as HTMLInputElement
   if (ramInput) ramInput.value = currentSettings.memory.max.replace('G', '')
+
   if (resolutionSelect) {
     const availableResolutions = getAvailableResolutions(resolution)
     resolutionSelect.innerHTML = ''
@@ -90,15 +87,13 @@ function initFormValues(resolution: { width: number; height: number }) {
       option.innerText = res.label
       resolutionSelect.appendChild(option)
     })
-
     resolutionSelect.value = currentSettings.resolution.fullscreen
       ? 'fullscreen'
       : `${currentSettings.resolution.width}x${currentSettings.resolution.height}`
   }
+
   if (launcherActionSelect) launcherActionSelect.value = currentSettings.launcherAction
   if (javaSelect) javaSelect.value = currentSettings.java === 'bundled' ? 'bundled' : 'custom'
-
-  minInput.dispatchEvent(new Event('input'))
 }
 
 async function saveSettings() {
@@ -114,8 +109,8 @@ async function saveSettings() {
       max: `${ramInput.value}G`
     },
     resolution: {
-      height: resolutionList.find((r) => r.value === resolutionSelect.value)?.height ?? 854,
-      width: resolutionList.find((r) => r.value === resolutionSelect.value)?.width ?? 480,
+      height: resolutionList.find((r) => r.value === resolutionSelect.value)?.height ?? 720,
+      width: resolutionList.find((r) => r.value === resolutionSelect.value)?.width ?? 1280,
       fullscreen: resolutionSelect.value === 'fullscreen'
     },
     java: javaSelect.value === 'bundled' ? 'bundled' : 'path',
@@ -129,4 +124,3 @@ async function saveSettings() {
 function getAvailableResolutions(systemResolution: { width: number; height: number }) {
   return resolutionList.filter((res) => res.width <= systemResolution.width && res.height <= systemResolution.height)
 }
-
