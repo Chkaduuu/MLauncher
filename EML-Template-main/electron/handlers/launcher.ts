@@ -27,6 +27,9 @@ export function registerLauncherHandlers(mainWindow: BrowserWindow) {
         width: settings.resolution.width,
         height: settings.resolution.height,
         fullscreen: settings.resolution.fullscreen
+      },
+      minecraft: {
+        args: ['--quickPlayMultiplayer', 'dns.burnednodes.ge:5078']
       }
     })
 
@@ -152,5 +155,3 @@ export function registerLauncherHandlers(mainWindow: BrowserWindow) {
     }
   })
 }
-
-
