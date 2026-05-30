@@ -12,7 +12,6 @@ export function initSkinViewer(username: string) {
     viewer = null
   }
 
-  const size = Math.min(container.clientWidth, container.clientHeight) || 200
 
   viewer = new skinview3d.SkinViewer({
     canvas,
